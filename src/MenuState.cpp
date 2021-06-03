@@ -29,20 +29,35 @@ MenuState::MenuState(std::shared_ptr<StateManager> stateManager, std::shared_ptr
     m_startBtn.setBorder(1, sf::Color(11, 123, 234));
     float padding = m_startBtn.getTextSize();
     m_startBtn.setSize(m_startBtn.getSize().x + padding, m_startBtn.getSize().y + padding / 2.f);
+
+    marginY = m_startBtn.getPosition().y + m_startBtn.getSize().y * 2;
+    m_exitBtn.setPosition(windowSize.x / 2.f, marginY);
+    m_exitBtn.setFont(m_fontManager.get("default"));
+    m_exitBtn.setText("EXIT");
+    m_exitBtn.setTextColor(sf::Color(255, 255, 255));
+    m_exitBtn.setBackgroundColor(sf::Color(11, 123, 234, 128));
+    m_exitBtn.setBorder(1, sf::Color(11, 123, 234));
+    padding = m_exitBtn.getTextSize();
+    m_exitBtn.setSize(m_exitBtn.getSize().x + padding, m_exitBtn.getSize().y + padding / 2.f);
+    m_exitBtn.setCallback([&]
+                          { m_window->close(); });
 }
 
 void MenuState::handleEvent(const sf::Event &event)
 {
     m_startBtn.handleEvents(event, *m_window);
+    m_exitBtn.handleEvents(event, *m_window);
 }
 
 void MenuState::update(float deltaTime)
 {
     m_startBtn.update();
+    m_exitBtn.update();
 }
 
 void MenuState::render()
 {
     m_window->draw(m_title);
     m_window->draw(m_startBtn);
+    m_window->draw(m_exitBtn);
 }

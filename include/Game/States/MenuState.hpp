@@ -31,5 +31,5 @@ private:
 
     sf::Text m_title;
     ui::Button m_startBtn;
-    std::shared_ptr<GameObject> m_player;
+    ui::Button m_exitBtn;
 };
