@@ -5,6 +5,7 @@
 #include <SFML/Window/Event.hpp>
 
 #include <chrono>
+#include <cmath>
 
 Application::Application()
 {
@@ -16,29 +17,28 @@ Application::Application()
 
 void Application::run()
 {
-    const std::chrono::nanoseconds FRAMETIME(16666667); // 16.66ms = 1000/60
+    const std::chrono::nanoseconds dt(16666667);
     using clock = std::chrono::high_resolution_clock;
-
-    auto appStartTime = clock::now();
-    auto frameStartTime = clock::now();
+    auto last = clock::now();
+    auto appStart = clock::now();
     std::chrono::nanoseconds accumulator(0);
 
     while (m_window->isOpen())
     {
-        auto now = clock::now();
-        if (now - frameStartTime > std::chrono::milliseconds(1))
+        auto elapsed = clock::now();
+        if (elapsed - last > std::chrono::milliseconds(1))
         {
-            auto deltaTime = now - frameStartTime;
-            frameStartTime = now;
+            auto deltaTime = elapsed - last;
+            last = elapsed;
             accumulator += deltaTime;
         }
 
         handleEvents();
-
-        while (accumulator >= FRAMETIME)
+        while (accumulator >= dt)
         {
-            accumulator -= FRAMETIME;
-            update(std::chrono::duration_cast<std::chrono::seconds>(accumulator).count());
+            accumulator -= dt;
+            auto seconds = static_cast<float>(std::chrono::duration_cast<std::chrono::milliseconds>(dt).count()) / 1000;
+            update(seconds);
         }
 
         render();
