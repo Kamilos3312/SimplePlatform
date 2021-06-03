@@ -20,7 +20,6 @@ void Application::run()
     const std::chrono::nanoseconds dt(16666667);
     using clock = std::chrono::high_resolution_clock;
     auto last = clock::now();
-    auto appStart = clock::now();
     std::chrono::nanoseconds accumulator(0);
 
     while (m_window->isOpen())
