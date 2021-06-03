@@ -5,7 +5,6 @@
 #include <SFML/Window/Event.hpp>
 
 #include <chrono>
-#include <cmath>
 
 Application::Application()
 {
