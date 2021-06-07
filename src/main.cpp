@@ -5,5 +5,5 @@ int main()
     Application app;
     app.run();
 
-    return 0;
+    return EXIT_SUCCESS;
 }

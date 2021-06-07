@@ -7,14 +7,17 @@
 namespace ui
 {
     Button::Button()
-        : m_text(), m_body()
+            : m_text(), m_body()
     {
         m_state = State::Default;
         setSize(0, 0);
+        m_body.setFillColor(sf::Color::Transparent);
+        m_body.setOutlineColor(sf::Color::Transparent);
+        m_body.setOutlineThickness(0);
     }
 
     Button::Button(const sf::Font &font, sf::Vector2f position)
-        : Button()
+            : Button()
     {
         setFont(font);
         setPosition(position);
@@ -163,8 +166,7 @@ namespace ui
                 {
                     m_state = State::Hovered;
                 }
-            }
-            else
+            } else
             {
                 m_state = State::Default;
             }
@@ -178,8 +180,7 @@ namespace ui
             }
 
             m_state = isHovered(mousePos) ? State::Hovered : State::Default;
-        }
-        else if (event.type == sf::Event::MouseButtonPressed)
+        } else if (event.type == sf::Event::MouseButtonPressed)
         {
             auto temp2 = getGlobalBounds();
             auto temp = getGlobalBounds().contains(mousePos);
@@ -194,18 +195,18 @@ namespace ui
     {
         switch (m_state)
         {
-        case State::Hovered:
-            m_text.setFillColor(m_hoverColor);
-            break;
-        case State::Pressed:
-            m_text.setFillColor(m_pressedColor);
-            break;
-        case State::Disabled:
-            m_text.setFillColor(m_disabledColor);
-            break;
-        default:
-            m_text.setFillColor(m_defaultColor);
-            break;
+            case State::Hovered:
+                m_text.setFillColor(m_hoverColor);
+                break;
+            case State::Pressed:
+                m_text.setFillColor(m_pressedColor);
+                break;
+            case State::Disabled:
+                m_text.setFillColor(m_disabledColor);
+                break;
+            default:
+                m_text.setFillColor(m_defaultColor);
+                break;
         }
     }
 

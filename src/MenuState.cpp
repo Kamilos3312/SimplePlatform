@@ -1,52 +1,47 @@
 #include <Game/States/MenuState.hpp>
+#include <Game/States/GameState.hpp>
+#include <Engine/ResourceManager.hpp>
 #include <Engine/StateManager.hpp>
 
-#include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/Font.hpp>
-#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
-MenuState::MenuState(std::shared_ptr<StateManager> stateManager, std::shared_ptr<sf::RenderWindow> window)
-        : State(stateManager, window),
-          m_textureManager(),
-          m_fontManager()
+MenuState::MenuState(StateManager &stateManager, State::Context context)
+        : State(stateManager, context)
 {
-    m_fontManager.load("default", "assets/BigSpace-rPKx.ttf");
+    auto windowSize = sf::Vector2f(m_context.window->getSize());
+    float marginY = 0.f;
+    sf::FloatRect bounds;
 
-    auto windowSize = sf::Vector2f(m_window->getSize());
-
-    m_title.setFont(m_fontManager.get("default"));
+    m_title.setFont(m_context.fontManager->get("default"));
     m_title.setCharacterSize(48u);
     m_title.setString("SimplePlatform v2");
     m_title.setPosition(windowSize.x / 2.f, windowSize.y / 4.f);
-    m_title.setOrigin(m_title.getLocalBounds().width / 2.f, m_title.getLocalBounds().height / 2.f);
+    bounds = m_title.getLocalBounds();
+    m_title.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 
-    float marginY = m_title.getPosition().y + m_title.getLocalBounds().height * 2;
+    marginY = m_title.getPosition().y + m_title.getLocalBounds().height * 2;
     m_startBtn.setPosition(windowSize.x / 2.f, marginY);
-    m_startBtn.setFont(m_fontManager.get("default"));
+    m_startBtn.setFont(m_context.fontManager->get("default"));
     m_startBtn.setText("START");
     m_startBtn.setTextColor(sf::Color(255, 255, 255));
-    m_startBtn.setBackgroundColor(sf::Color(11, 123, 234, 128));
-    m_startBtn.setBorder(1, sf::Color(11, 123, 234));
-    float padding = m_startBtn.getTextSize();
-    m_startBtn.setSize(m_startBtn.getSize().x + padding, m_startBtn.getSize().y + padding / 2.f);
+    m_startBtn.setSize(m_startBtn.getSize());
+    m_startBtn.setCallback([&]
+                           { m_stateManager->swapState<GameState>(); });
 
     marginY = m_startBtn.getPosition().y + m_startBtn.getSize().y * 2;
     m_exitBtn.setPosition(windowSize.x / 2.f, marginY);
-    m_exitBtn.setFont(m_fontManager.get("default"));
+    m_exitBtn.setFont(m_context.fontManager->get("default"));
     m_exitBtn.setText("EXIT");
     m_exitBtn.setTextColor(sf::Color(255, 255, 255));
-    m_exitBtn.setBackgroundColor(sf::Color(11, 123, 234, 128));
-    m_exitBtn.setBorder(1, sf::Color(11, 123, 234));
-    padding = m_exitBtn.getTextSize();
-    m_exitBtn.setSize(m_exitBtn.getSize().x + padding, m_exitBtn.getSize().y + padding / 2.f);
+    m_exitBtn.setSize(m_exitBtn.getSize());
     m_exitBtn.setCallback([&]
-                          { m_window->close(); });
+                          { m_context.window->close(); });
 }
 
 void MenuState::handleEvent(const sf::Event &event)
 {
-    m_startBtn.handleEvents(event, *m_window);
-    m_exitBtn.handleEvents(event, *m_window);
+    m_startBtn.handleEvents(event, *m_context.window);
+    m_exitBtn.handleEvents(event, *m_context.window);
 }
 
 void MenuState::update(float deltaTime)
@@ -57,7 +52,8 @@ void MenuState::update(float deltaTime)
 
 void MenuState::render()
 {
-    m_window->draw(m_title);
-    m_window->draw(m_startBtn);
-    m_window->draw(m_exitBtn);
+    sf::RenderWindow &window = *m_context.window;
+    window.draw(m_title);
+    window.draw(m_startBtn);
+    window.draw(m_exitBtn);
 }

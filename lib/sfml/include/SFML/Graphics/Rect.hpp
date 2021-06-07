@@ -72,7 +72,7 @@ public:
     /// Be careful, the last parameter is the size,
     /// not the bottom-right corner!
     ///
-    /// \param position Position of the top-left corner of the rectangle
+    /// \param position Transform of the top-left corner of the rectangle
     /// \param size     Size of the rectangle
     ///
     ////////////////////////////////////////////////////////////

@@ -1,13 +1,12 @@
 #pragma once
 
-#include <memory>
+#include <Engine/ResourceManager.hpp>
+#include <Engine/StateManager.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Font.hpp>
 
-namespace sf
-{
-    class RenderWindow;
-}
-
-class StateManager;
+#include <string>
 
 class Application
 {
@@ -21,6 +20,9 @@ private:
     void render();
 
 private:
-    std::shared_ptr<sf::RenderWindow> m_window;
-    std::shared_ptr<StateManager> m_stateManager;
+    sf::RenderWindow m_window;
+    StateManager m_stateManager;
+
+    ResourceManager<std::string, sf::Texture> m_textureManager;
+    ResourceManager<std::string, sf::Font> m_fontManager;
 };

@@ -1,28 +1,34 @@
 #include <Game/States/IntroState.hpp>
 #include <Game/States/MenuState.hpp>
+#include <Engine/ResourceManager.hpp>
 #include <Engine/StateManager.hpp>
 
-#include <SFML/System/Vector2.hpp>
-#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
-IntroState::IntroState(std::shared_ptr<StateManager> stateManager, std::shared_ptr<sf::RenderWindow> window)
-        : State(stateManager, window),
-          m_fontManager()
+IntroState::IntroState(StateManager &stateManager, State::Context context)
+        : State(stateManager, context)
 {
-    m_fontManager.load("default", "assets/BigSpace-rPKx.ttf");
-    m_title.setFont(m_fontManager.get("default"));
+    auto windowSize = sf::Vector2f(m_context.window->getSize());
+
+    m_title.setFont(m_context.fontManager->get("default"));
     m_title.setCharacterSize(48);
     m_title.setString("Intro");
-    auto windowSize = sf::Vector2f(m_window->getSize());
     m_title.setPosition(windowSize.x / 2.f, windowSize.y / 4);
-    m_title.setOrigin(m_title.getLocalBounds().width / 2, m_title.getLocalBounds().height / 2);
+    auto bounds = m_title.getLocalBounds();
+    m_title.setOrigin(bounds.width / 2, bounds.height / 2);
 }
 
 void IntroState::handleEvent(const sf::Event &event)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+    if (event.type == sf::Event::KeyPressed)
     {
-        m_stateManager->swapState<MenuState>();
+        switch (event.key.code)
+        {
+            case sf::Keyboard::Enter:
+            case sf::Keyboard::Escape:
+                m_stateManager->swapState<MenuState>();
+                break;
+        }
     }
 }
 
@@ -38,5 +44,6 @@ void IntroState::update(float deltaTime)
 
 void IntroState::render()
 {
-    m_window->draw(m_title);
+    sf::RenderWindow &window = *m_context.window;
+    window.draw(m_title);
 }

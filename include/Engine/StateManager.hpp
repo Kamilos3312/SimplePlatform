@@ -1,28 +1,30 @@
 #pragma once
 
+#include <Engine/State.hpp>
+#include <SFML/System/NonCopyable.hpp>
+
 #include <memory>
 #include <stack>
-
-class State;
 
 namespace sf
 {
     class Event;
-    class RenderWindow;
 }
 
-class StateManager : public std::enable_shared_from_this<StateManager>
+class StateManager : private sf::NonCopyable
 {
 public:
-    StateManager(std::shared_ptr<sf::RenderWindow> window);
+    StateManager(State::Context context);
     ~StateManager();
-
-    std::shared_ptr<StateManager> get_shared_ptr();
 
     template<typename StateType>
     void pushState();
     template<typename StateType>
     void swapState();
+    template<typename StateType, typename T>
+    void pushState(T data);
+    template<typename StateType, typename T>
+    void swapState(T data);
     void popState();
 
     void handleEvent(sf::Event &event);
@@ -31,7 +33,7 @@ public:
 
 private:
     std::stack<std::unique_ptr<State>> m_states;
-    std::shared_ptr<sf::RenderWindow> m_window;
+    State::Context m_context;
 };
 
 #include "StateManager.inl"

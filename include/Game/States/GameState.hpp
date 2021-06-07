@@ -2,20 +2,24 @@
 
 #include <Engine/State.hpp>
 
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 
-class IntroState : public State
+class GameState : public State
 {
 public:
-    IntroState(StateManager &stateManager, State::Context context);
+    GameState(StateManager
+              &stateManager,
+              State::Context context
+    );
 
     void handleEvent(const sf::Event &event) override;
     void update(float deltaTime) override;
     void render() override;
 
 private:
-    float m_elapsed = 0.f;
-    float m_duration = 5.f;
+    // level
+    sf::Sprite m_player;
 
-    sf::Text m_title;
+    sf::Text m_text;
 };

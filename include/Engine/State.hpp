@@ -1,19 +1,34 @@
 #pragma once
 
 #include <memory>
+#include <string>
 
 class StateManager;
+template<typename T, typename U>
+class ResourceManager;
 
 namespace sf
 {
     class Event;
     class RenderWindow;
+    class Texture;
+    class Font;
 }
 
 class State
 {
 public:
-    State(std::shared_ptr<StateManager> stateManager, std::shared_ptr<sf::RenderWindow> window);
+    struct Context
+    {
+        Context(sf::RenderWindow &window, ResourceManager<std::string, sf::Texture> &textures,
+                ResourceManager<std::string, sf::Font> &fonts);
+
+        sf::RenderWindow *window;
+        ResourceManager<std::string, sf::Texture> *textureManager;
+        ResourceManager<std::string, sf::Font> *fontManager;
+    };
+
+    State(StateManager &stateManager, Context context);
     virtual ~State() = default;
 
     virtual void handleEvent(const sf::Event &event) = 0;
@@ -21,6 +36,6 @@ public:
     virtual void render() = 0;
 
 protected:
-    std::shared_ptr<StateManager> m_stateManager;
-    std::shared_ptr<sf::RenderWindow> m_window;
+    StateManager *m_stateManager;
+    Context m_context;
 };

@@ -1,12 +1,11 @@
 #include <Engine/StateManager.hpp>
-#include <Engine/State.hpp>
 
-#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
-StateManager::StateManager(std::shared_ptr<sf::RenderWindow> window)
+StateManager::StateManager(State::Context context)
         : m_states(),
-          m_window(window)
+          m_context(context)
 {
 }
 
@@ -16,11 +15,6 @@ StateManager::~StateManager()
     {
         popState();
     }
-}
-
-std::shared_ptr<StateManager> StateManager::get_shared_ptr()
-{
-    return shared_from_this();
 }
 
 void StateManager::popState()
