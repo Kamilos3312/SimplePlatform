@@ -11,7 +11,6 @@ Application::Application()
           m_stateManager(State::Context(m_window, m_textureManager, m_fontManager))
 {
     m_fontManager.load("default", "assets/font.ttf");
-    m_textureManager.load("player", "assets/gfx/player.png");
     m_stateManager.pushState<IntroState>();
 }
 

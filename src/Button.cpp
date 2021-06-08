@@ -1,5 +1,4 @@
 #include <UI/Button.hpp>
-#include <Engine/Utils/Color.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
@@ -125,21 +124,6 @@ namespace ui
     void Button::setTextColor(sf::Color color)
     {
         m_defaultColor = color;
-
-        float *hsv = Util::Color::rgb2hsv(color.r, color.g, color.b);
-        hsv[0] += 180;
-
-        float *rgb = Util::Color::hsv2rgb(hsv[0] + 30, hsv[1], hsv[2]);
-        sf::Color splitComp1 = sf::Color(rgb[0], rgb[1], rgb[2]);
-        m_hoverColor = splitComp1;
-
-        rgb = Util::Color::hsv2rgb(hsv[0] - 30, hsv[1], hsv[2]);
-        splitComp1 = sf::Color(rgb[0], rgb[1], rgb[2]);
-        m_pressedColor = splitComp1;
-
-        double grayscale = Util::Color::rgb2grayscale(color.r, color.g, color.b);
-        m_disabledColor = sf::Color(grayscale, grayscale, grayscale);
-
         m_hoverColor = sf::Color(0, 255, 0);
         m_pressedColor = sf::Color(255, 0, 0);
     }

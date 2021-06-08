@@ -1,20 +1,11 @@
 #include <Engine/StateManager.hpp>
 
 #include <SFML/Window/Event.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
 
 StateManager::StateManager(State::Context context)
         : m_states(),
           m_context(context)
 {
-}
-
-StateManager::~StateManager()
-{
-    while (!m_states.empty())
-    {
-        popState();
-    }
 }
 
 void StateManager::popState()

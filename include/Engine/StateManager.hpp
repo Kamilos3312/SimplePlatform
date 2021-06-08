@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Engine/State.hpp>
-#include <SFML/System/NonCopyable.hpp>
 
 #include <memory>
 #include <stack>
@@ -11,11 +10,10 @@ namespace sf
     class Event;
 }
 
-class StateManager : private sf::NonCopyable
+class StateManager
 {
 public:
     StateManager(State::Context context);
-    ~StateManager();
 
     template<typename StateType>
     void pushState();

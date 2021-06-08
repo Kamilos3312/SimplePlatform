@@ -2,6 +2,7 @@
 
 #include <Engine/ResourceManager.hpp>
 #include <Engine/StateManager.hpp>
+
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Font.hpp>

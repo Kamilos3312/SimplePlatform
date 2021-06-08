@@ -1,5 +1,11 @@
 #include <Engine/State.hpp>
 #include <Engine/StateManager.hpp>
+#include <Engine/ResourceManager.hpp>
+
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Window/Event.hpp>
 
 State::State(StateManager &stateManager, Context context)
         : m_stateManager(&stateManager),

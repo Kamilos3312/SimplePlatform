@@ -1,14 +1,21 @@
 #pragma once
 
-#include <vector>
+#include <Engine/ResourceManager.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Text.hpp>
+
+#include <string>
 
 class Level
 {
 public:
-    void load()
+    Level(ResourceManager<std::string, sf::Texture> &textures, ResourceManager<std::string, sf::Font> &fonts,
+          unsigned int id);
 
-private:
-    int m_id;
-    int m_player;
-    std::vector<int> m_platforms;
+public:
+    unsigned int m_id = 0;
+    unsigned int m_score = 0;
+
+    sf::Text m_scoreText;
+    sf::Sprite m_player;
 };

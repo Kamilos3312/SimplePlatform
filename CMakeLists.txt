@@ -18,7 +18,7 @@ file(GLOB SOURCES
         "src/*.cpp"
         )
 
-add_executable(SimplePlatform src/main.cpp ${SOURCES})
+add_executable(SimplePlatform ${SOURCES})
 
 ## SFML
 target_link_libraries(SimplePlatform sfml-system sfml-window sfml-graphics sfml-audio)

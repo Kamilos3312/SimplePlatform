@@ -3,7 +3,9 @@
 #include <Engine/ResourceManager.hpp>
 #include <Engine/StateManager.hpp>
 
+#include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Window/Event.hpp>
 
 MenuState::MenuState(StateManager &stateManager, State::Context context)
         : State(stateManager, context)
@@ -26,7 +28,7 @@ MenuState::MenuState(StateManager &stateManager, State::Context context)
     m_startBtn.setTextColor(sf::Color(255, 255, 255));
     m_startBtn.setSize(m_startBtn.getSize());
     m_startBtn.setCallback([&]
-                           { m_stateManager->swapState<GameState>(); });
+                          { m_stateManager->swapState<GameState>(); });
 
     marginY = m_startBtn.getPosition().y + m_startBtn.getSize().y * 2;
     m_exitBtn.setPosition(windowSize.x / 2.f, marginY);
